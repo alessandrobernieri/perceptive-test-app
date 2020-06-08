@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+<center>
+    <div style="background: white;border-width:1px;border-style:solid;border-color:#dadce0;border-radius:7px;width:30%;margin:2%;margin-bottom:10px;padding-bottom:13px;">
+<h1>Statistiche</h2>
+<form action="{{ url_for('stats') }}" method="post">
+<select id="type" name="test">
+  <option value=None>Seleziona un test</option>
+{% for i in range(test_presenti|length) %}
+    {% if titoli[i] %}
+	    <option value={{ test_presenti[i].id }}>Test: {{ titoli[i] }}</option>
+	{% else %}
+	    <option value={{ test_presenti[i].id }}>Test id: {{ test_presenti[i].id }}</option>
+	{% endif %}
+{% endfor %}
+</select>
+<div style="clear:left;">
+<br>{{ form.submit }}
+{{ form.csrf_token }}
+</div>
+</form>
+<br>
+</div>
+</center>
+<br>
+
+{% endblock %}

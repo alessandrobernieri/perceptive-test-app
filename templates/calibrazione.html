@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+<center>
+        			<div style="background: white;border-width:1px;border-style:solid;border-color:#dadce0;border-radius:7px;width:60%;margin:2%;margin-bottom:10px;padding-bottom:13px;padding-left:7px;padding-right:7px;">
+<h1>Calibrazione Luminosità/Contrasto</h1>
+<br>
+Aggiusta il <b>CONTRASTO</b> così da ottenere un colore più bianco possibile mantenendo tutte le barre bianche visibili e distinguibili.
+<br><img src="/static/calibrazione.png" alt="calibrazione">
+<br>Aggiusta la <b>LUMINOSITA'</b> così da ottenere un colore più nero possibile mantenendo tutte le barre nere visibili e distinguibili.
+<br><br>
+{{ wtf.quick_form(form) }}
+</div>
+</center>
+<br><br>
+{% endblock %}

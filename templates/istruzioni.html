@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+<center>
+        			<div style="background: white;border-width:1px;border-style:solid;border-color:#dadce0;border-radius:7px;width:60%;margin:2%;margin-bottom:10px;padding-bottom:13px;padding-left:7px;padding-right:7px;">
+{{ instruction|safe }}
+<br>
+{{ wtf.quick_form(form) }}
+</div>
+</center>
+<br><br>
+{% endblock %}

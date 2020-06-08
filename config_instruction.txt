@@ -1,0 +1,33 @@
+[instruction_config]
+4 = <h2>Test soggettivo sulla stimolazione dell&#39;appetito</h2>
+	
+	<h1>Istruzioni</h1>
+	
+	<p>Con lo studio al quale parteciper&agrave; siamo interessati a valutare come viene stimolato l&#39;appetito di un uomo attraverso le immagini.<br />
+	<br />
+	<strong>Il tuo voto all&#39;immagine dovrebbe riflettere quanto credi che il piatto raffigurato sia appetitoso.</strong><br />
+	Nell&#39;esprimere il tuo giudizio dovrai quindi focalizzarti solo sul piatto in s&egrave;, e ignorare tutto cio&#39; che sta al di fuori del piatto.<br />
+	Ecco alcuni esempi:<br />
+	<img alt="" src="../static/istruzioni_4_1.png" style="height:237px; width:500px" /><br />
+	<br />
+	<strong>I seguenti step descrivono come votare un&#39;immagine:</strong><br />
+	<img alt="" src="../static/istruzioni_4_2.png" /><br />
+	1. Ti verr&agrave; mostrata ogni fotografia con sotto di essa una barra per votare (il voto va da 1 a 100).<br />
+	2. Vota l&#39;immagine muovendo il puntatore sulla barra di voto, posizionandolo sul voto che, secondo te, meglio descrive quanto il piatto &egrave; appetitoso.&nbsp;Nota che puoi muovere il puntatore ovunque sulla barra, non necessariamente su uno dei 5 puntatori (1, 25, 50, 75, 100). Il tuo voto verr&agrave; visualizzato al di sopra del puntatore nel momento che lo muoverai.<br />
+	3. Per ogni immagine mostrata, abbiamo intenzionalmente posto il puntatore nella posizione centrale (50).</p>
+	
+	<p><strong>Ad ogni stimolo visivo sar&agrave; visualizzata una schermata grigia per consentire un reset visivo dell&#39;utente.</strong><br />
+	La durata complessiva del test &egrave; di circa 15 minuti.<br />
+	Per completare il lavoro si prenda tutto il tempo che le serve, alla fine le verr&agrave; proposto di completare un questionario opzionale.</p>
+	
+	<h2>Istruzioni addizionali:</h2>
+	
+	<p>- Sei pregato a posizionarti a una distanza adeguata tra te e il monitor cos&igrave; da vedere chiaramente l&#39;immagine.<br />
+	- Se di solito indossi lenti correttive per guardare il monitor a questa distanza, sei pregato di indossarle durante la fase di test.<br />
+	- Ti preghiamo di spegnere eventuali cellulari o altri dispositivi che possono disurbarti o distrarti durante la fase di test.<br />
+	- Ti preghiamo di usare un desktop e non un tablet o cellulare mentre lavori al test.<br />
+	- <strong>Per una corretta visualizzazione si consiglia di eseguire il test in modalit&agrave; fullscreen (prema il tasto F11).</strong><br />
+	<br />
+	<strong>Procedendo con il test acconsente all&#39;utilizzo in forma anonima delle informazioni acquisite (non verr&agrave; salvato alcun dato personale).</strong></p>
+	
+

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+<center>
+    <div style="background: white;border-width:1px;border-style:solid;border-color:#dadce0;border-radius:7px;width:30%;margin:2%;margin-bottom:10px;padding-bottom:13px;">
+<h1>Modifica la durata gray-screen </h1><h2>(in milli-secondi)</h2>
+<form enctype="multipart/form-data" action="{{ url_for('change_time') }}" method="post">
+	{% if not time_old %}
+		<i>Nessun tempo al momento settato.</i>
+		<br><input type="text" size="100" name="time">
+	{% else %}
+	<br><input type="text" size="10" name="time" value="{{ time_old }}">
+	{% endif %}
+<br><br>
+{{ form.submit }}
+{{ form.csrf_token }}
+</form>
+<br>
+</div></center>
+<br>
+{% endblock %}

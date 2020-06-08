@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+<center>
+    <div style="background: white;border-width:1px;border-style:solid;border-color:#dadce0;border-radius:7px;width:50%;margin:2%;margin-bottom:10px;padding-bottom:13px;">
+<h1>Modifica il titolo</h1>
+<h2>Test id: {{ id }}</h2>
+<form enctype="multipart/form-data" action="{{ url_for('change_title', id=id) }}" method="post">
+	{% if not title_old %}
+		<i>Nessun titolo al momento relativo a questo test.</i>
+		<br><input type="text" size="100" name="title">
+	{% else %}
+	<br><input type="text" size="100" name="title" value="{{ title_old }}">
+	{% endif %}
+<br><br>
+{{ form.submit }}
+{{ form.csrf_token }}
+</form>
+<br>
+</div></center>
+<br>
+{% endblock %}

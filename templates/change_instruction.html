@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+<center>
+    <div style="background: white;border-width:1px;border-style:solid;border-color:#dadce0;border-radius:7px;width:50%;margin:2%;margin-bottom:10px;padding-bottom:13px;">
+<h1>Modifica le istruzioni</h1>
+<h2>Test id: {{ id }}</h2>
+<form enctype="multipart/form-data" action="{{ url_for('change_instruction', id=id) }}" method="post">
+	<div style="width:70%;">
+	{% if not instruction_old %}
+	<br>
+	    <textarea name="instruction" id="editor">
+            Nessuna istruzione al momento relativa a questo test.
+        </textarea>
+	{% else %}
+	<br>
+		<textarea name="instruction" id="editor">
+			{{ instruction_old|safe }}
+		</textarea>
+	{% endif %}
+	</div>
+<br><br>
+{{ form.submit }}
+{{ form.csrf_token }}
+</form>
+<br>
+</div></center><br>
+<script src="../static/ckeditor/ckeditor.js"></script>
+            <script>
+                CKEDITOR.replace( 'editor' );
+            </script>
+{% endblock %}

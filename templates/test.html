@@ -1,0 +1,473 @@
+{% extends "base_test.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+<center>
+    {% if is_double==False %}
+        <div style="background: white;border-width:1px;border-style:solid;border-color:#dadce0;border-radius:7px;width:60%;margin:2%;margin-bottom:10px;padding-bottom:13px;">
+    {% else %}
+        <div style="background: white;border-width:1px;border-style:solid;border-color:#dadce0;border-radius:7px;width:80%;margin:2%;margin-bottom:10px;padding-bottom:13px;">
+    {% endif %}
+{% if type == "img" %}
+	{% if is_double == False %}
+		{% if is_continue == False %}
+			{% if this_title %}
+				<h1>{{  this_title  }}</h1>
+			{% else %}
+			<h1>Test Singolo a Immagini e a Valutazione Discreta</h1>
+			{% endif %}
+			{% if this_description %}
+			<h2>{{ this_description }}</h2>
+			{% endif %}
+			<br>
+			<img src="../static{{ content.url  }}" alt="immagine" style="width:100%;max-width:800px;">
+			<br><br>
+			<form action="{{ url_for('test', id=id) }}" method="post">
+				<div style="width:70%;font-size:135%;">
+					<label id="slider" class="mbsc-slider-secondary">
+						<input mbsc-slider name="voto" type="range" value="3" min="1" max="5" step="1" data-step-labels="[1, 2, 3, 4, 5]" data-highlight="true" data-tooltip="true" onchange="updateval(this.value);">
+					</label>
+				</div>
+					<br>
+		{% endif %}
+		{% if is_continue == True %}
+			{% if this_title %}
+				<h1>{{  this_title  }}</h1>
+			{% else %}
+			<h1>Test Singolo a Immagini e a Valutazione Continua</h1>
+			{% endif %}
+			{% if this_description %}
+			<h2>{{ this_description }}</h2>
+			{% endif %}
+			<br>
+			<img src="../static{{ content.url  }}" alt="immagine" style="width:100%;max-width:800px;">
+			<br><br>
+			<form action="{{ url_for('test', id=id) }}" method="post">
+				<div style="width: 70%;font-size:135%;">
+					<label id="slider" class="mbsc-slider-secondary">
+						<input mbsc-slider name="voto" type="range" value="50" min="1" max="100" step="1" data-step-labels="[1, 25, 50, 75, 100]" data-highlight="true" data-tooltip="true" onchange="updateval(this.value);">
+					</label>
+				</div>
+		<br>
+		{% endif %}
+	{% endif %}
+	{% if is_double == True %}
+		{% if ((is_continue == False) and (is_double_reference == False)) %}
+			{% if this_title %}
+				<h1>{{  this_title  }}</h1>
+			{% else %}
+			<h1>Test Doppio a Immagini e a Valutazione Discreta</h1>
+			{% endif %}
+			{% if this_description %}
+			<h2>{{ this_description }}</h2>
+			{% endif %}
+			<br>
+			<form action="{{ url_for('test', id=id) }}" method="post">
+			<div style="display:inline-block;width:45%;">
+				<img src="../static{{ content1.url  }}" alt="immagine" style="width:100%;max-width:600px;">
+				<br><br>
+					<div style="width:70%;font-size:135%;">
+						<label id="slider1" class="mbsc-slider-secondary">
+							<input mbsc-slider name="voto1" type="range" value="3" min="1" max="5" step="1" data-step-labels="[1, 2, 3, 4, 5]" data-highlight="true" data-tooltip="true" onchange="updateval1(this.value);">
+						</label>
+					</div>
+			</div>
+			<div style="display:inline-block; width:45%;">
+				<img src="../static{{ content2.url  }}" alt="immagine" style="width:100%;max-width:600px;">
+				<br><br>
+					<div style="width:70%;font-size:135%;">
+						<label id="slider2" class="mbsc-slider-secondary">
+							<input mbsc-slider name="voto2" type="range" value="3" min="1" max="5" step="1" data-step-labels="[1, 2, 3, 4, 5]" data-highlight="true" data-tooltip="true" onchange="updateval2(this.value);">
+						</label>
+					</div>
+			</div>
+			<br>
+		{% endif %}
+		{% if is_continue == True %}
+			{% if this_title %}
+				<h1>{{  this_title  }}</h1>
+			{% else %}
+			<h1>Test Doppio a Immagini e a Valutazione Continua</h1>
+			{% endif %}
+			{% if this_description %}
+			<h2>{{ this_description }}</h2>
+			{% endif %}
+			<br>
+			<form action="{{ url_for('test', id=id) }}" method="post">
+			<div style="display:inline-block;width:45%;">
+				<img src="../static{{ content1.url  }}" alt="immagine" style="width:100%;max-width:600px;">
+				<br><br>
+					<div style="width:70%;font-size:135%;">
+						<label id="slider1" class="mbsc-slider-secondary">
+							<input mbsc-slider name="voto1" type="range" value="50" min="1" max="100" step="1" data-step-labels="[1, 25, 50, 75, 100]" data-highlight="true" data-tooltip="true" onchange="updateval1(this.value);">
+						</label>
+					</div>
+			</div>
+			<div style="display:inline-block;width:45%;">
+				<img src="../static{{ content2.url  }}" alt="immagine" style="width:100%;max-width:600px;">
+				<br><br>
+					<div style="width:70%;font-size:135%;">
+						<label id="slider2" class="mbsc-slider-secondary">
+							<input mbsc-slider name="voto2" type="range" value="50" min="1" max="100" step="1" data-step-labels="[1, 25, 50, 75, 100]" data-highlight="true" data-tooltip="true" onchange="updateval2(this.value);">
+						</label>
+					</div>
+			</div>
+<br>
+		{% endif %}
+		{% if is_double_reference == True %}
+			{% if this_title %}
+				<h1>{{  this_title  }}</h1>
+			{% else %}
+			<h1>Test Doppio a Immagini e a Valutazione Referenziata</h1>
+			{% endif %}
+			{% if this_description %}
+			<h2>{{ this_description }}</h2><br>
+			{% else %}
+			<h2>Scegli l'immagine qualitativamente migliore</h2><br><br>
+			{% endif %}
+			<form action="{{ url_for('test', id=id) }}" method="post">
+			<div style="display:inline-block;width:45%;">
+				<img src="../static{{ content1.url  }}" alt="immagine" style="width:100%;max-width:600px;">
+				<br><br>
+				<input type="radio" id="slider" name="videodouble" value="{{ content1.id }}" required> <b>Immagine 1</b>
+			</div>
+			<div style="display:inline-block;width:45%;">
+				<img src="../static{{ content2.url  }}" alt="immagine" style="width:100%;max-width:600px;">
+				<br><br>
+				<input type="radio" id="sliderb" name="videodouble" value="{{ content2.id }}"> <b>Immagine 2</b>
+			</div>
+			<br>
+		{% endif %}
+	{% endif %}
+{% endif %}
+{% if type == "rank" %}
+			{% if this_title %}
+				<h1>{{  this_title  }}</h1>
+			{% else %}
+<h1>Test Rank a Immagini</h1>
+{% endif %}
+{% if this_description %}
+	<h2>{{ this_description }}</h2><br>
+{% else %}
+	<h2>Ordina le immagini in base alla loro qualità</h2><br><br>
+{% endif %}
+<div id="items" class="list-group" style="width:auto; height: auto;">
+	{% for i in range(lenght) %}
+		<div data-id="{{ contents[i] }}" class="list-group-item" style="height:185px;width:230px;display:inline-block;margin:10px;">
+		    <img class="rank" style="margin-top:5px;display:block;" width="200px" height="150px" src="../static{{ urls[i] }}">
+		</div>
+	{% endfor %}
+</div>
+{% endif %}
+{% if type == "video" %}
+	{% if is_double == False %}
+		{% if is_continue == False %}
+			{% if this_title %}
+				<h1>{{  this_title  }}</h1>
+			{% else %}
+			<h1>Test Singolo a Video e a Valutazione Discreta</h1>
+			{% endif %}
+			{% if this_description %}
+			<h2>{{ this_description }}</h2>
+			{% endif %}
+			<br>
+					<video id="my-video" class="video-js" controls preload="auto" width="640px" height="480px" data-setup="{}">
+						<source src="../static{{ content.url  }}" type="video/mp4" />
+						<p class="vjs-no-js"> To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+					</video>
+			<br>
+			<form action="{{ url_for('test', id=id) }}" method="post">
+        <div style="width:70%;font-size:135%;">
+            <label id="slider" class="mbsc-slider-secondary">
+				<input mbsc-slider name="voto" type="range" value="3" min="1" max="5" step="1" data-step-labels="[1, 2, 3, 4, 5]" data-highlight="true" data-tooltip="true" onchange="updateval(this.value);">
+			</label>
+		</div>
+            <br>
+		{% endif %}
+		{% if is_continue == True %}
+			{% if this_title %}
+				<h1>{{  this_title  }}</h1>
+			{% else %}
+			<h1>Test Singolo a Video e a Valutazione Continua</h1>
+			{% endif %}
+			{% if this_description %}
+			<h2>{{ this_description }}</h2>
+			{% endif %}
+			<br>
+					<video id="my-video" class="video-js" controls preload="auto" width="640px" height="480px" data-setup="{}">
+						<source src="../static{{ content.url  }}" type="video/mp4" />
+						<p class="vjs-no-js"> To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+					</video>
+			<br>
+			<form action="{{ url_for('test', id=id) }}" method="post">
+				<div style="width: 70%;font-size:135%;">
+					<label id="slider" class="mbsc-slider-secondary">
+						<input mbsc-slider name="voto" type="range" value="50" min="1" max="100" step="1" data-step-labels="[1, 25, 50, 75, 100]" data-highlight="true" data-tooltip="true" onchange="updateval(this.value);">
+					</label>
+				</div>
+<br>
+		{% endif %}
+	{% endif %}
+	{% if is_double == True %}
+		{% if ((is_continue == False) and (is_double_reference == False)) %}
+			{% if this_title %}
+				<h1>{{  this_title  }}</h1>
+			{% else %}
+			<h1>Test Doppio a Video e a Valutazione Discreta</h1>
+			{% endif %}
+			{% if this_description %}
+			<h2>{{ this_description }}</h2>
+			{% endif %}
+			<div style="clear:left;margin-top:20px;"><input type='button' value='Play all' id='playAll'></div><br>
+			<form action="{{ url_for('test', id=id) }}" method="post">
+				<div style="display:inline-block;width:45%;">
+					<video id="my-video" class="video-js" controls preload="auto" width="550" height="360" data-setup="{}">
+						<source src="../static{{ content2.url  }}" type="video/mp4" />
+						<p class="vjs-no-js"> To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+					</video>
+				<br>
+					<div style="width: 70%; font-size:135%;">
+						<label id="slider1" class="mbsc-slider-secondary">
+							<input mbsc-slider name="voto1" type="range" value="3" min="1" max="5" step="1" data-step-labels="[1, 2, 3, 4, 5]" data-highlight="true" data-tooltip="true" onchange="updateval1(this.value);">
+						</label>
+					</div>
+				</div>
+				<div style="display:inline-block;width:45%;">
+					<video id="my-video2" class="video-js" controls preload="auto" width="550" height="360" data-setup="{}">
+						<source src="../static{{ content1.url  }}" type="video/mp4" />
+						<p class="vjs-no-js"> To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+					</video>
+				<br>
+					<div style="width: 70%; font-size:135%;">
+						<label id="slider2" class="mbsc-slider-secondary">
+							<input mbsc-slider name="voto2" type="range" value="3" min="1" max="5" step="1" data-step-labels="[1, 2, 3, 4, 5]" data-highlight="true" data-tooltip="true" onchange="updateval2(this.value);">
+						</label>
+					</div>
+				</div>
+<br>
+		{% endif %}
+		{% if is_continue == True %}
+			{% if this_title %}
+				<h1>{{  this_title  }}</h1>
+			{% else %}
+			<h1>Test Doppio a Video e a Valutazione Continua</h1>
+			{% endif %}
+			{% if this_description %}
+			<h2>{{ this_description }}</h2>
+			{% endif %}
+			<div style="clear:left;margin-top:20px;"><input type='button' value='Play all' id='playAll'></div><br>
+			<form action="{{ url_for('test', id=id) }}" method="post">
+				<div style="display:inline-block;width:45%;">
+					<video id="my-video" class="video-js" controls preload="auto" width="550" height="360" data-setup="{}">
+						<source src="../static{{ content2.url  }}" type="video/mp4" />
+						<p class="vjs-no-js"> To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+					</video>
+				<br>
+					<div style="width: 70%;font-size:135%;">
+						<label id="slider1" class="mbsc-slider-secondary">
+							<input mbsc-slider name="voto1" type="range" value="50" min="1" max="100" step="1" data-step-labels="[1, 25, 50, 75, 100]" data-highlight="true" data-tooltip="true" onchange="updateval1(this.value);">
+						</label>
+					</div>
+				</div>
+				<div style="display:inline-block;width:45%;">
+					<video id="my-video2" class="video-js" controls preload="auto" width="550" height="360" data-setup="{}">
+						<source src="../static{{ content1.url  }}" type="video/mp4" />
+						<p class="vjs-no-js"> To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+					</video>
+				<br>
+					<div style="width: 70%; font-size:135%;">
+						<label id="slider2" class="mbsc-slider-secondary">
+							<input mbsc-slider name="voto2" type="range" value="50" min="1" max="100" step="1" data-step-labels="[1, 25, 50, 75, 100]" data-highlight="true" data-tooltip="true" onchange="updateval2(this.value);">
+						</label>
+					</div>
+				</div>
+				<br>
+		{% endif %}
+		{% if is_double_reference == True %}
+			{% if this_title %}
+				<h1>{{  this_title  }}</h1>
+			{% else %}
+			<h1>Test Doppio a Video e a Valutazione Referenziata</h1>
+			{% endif %}
+			{% if this_description %}
+			<h2>{{ this_description }}</h2>
+			{% else %}
+			<h2>Scegli il video qualitativamente migliore</h2>
+			{% endif %}
+			<div style="clear:left;margin-top:20px;"><input type='button' value='Play all' id='playAll'></div><br>
+			<form action="{{ url_for('test', id=id) }}" method="post">
+				<div style="display:inline-block;width:45%;">
+					<video id="my-video" class="video-js" controls preload="auto" width="550" height="360" data-setup="{}">
+						<source src="../static{{ content2.url  }}" type="video/mp4" />
+						<p class="vjs-no-js"> To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+					</video>
+				<br><br>
+				<input id="slider" type="radio" name="videodouble" value="{{ content1 }}" required> <b>Video 1</b>
+				</div>
+				<div style="display:inline-block;width:45%;">
+					<video id="my-video2" class="video-js" controls preload="auto" width="550" height="360" data-setup="{}">
+						<source src="../static{{ content1.url  }}" type="video/mp4" />
+						<p class="vjs-no-js"> To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+					</video>
+				<br><br>
+				<input id="sliderb" type="radio" name="videodouble" value="{{ content2 }}"> <b>Video 2</b>
+				</div>
+<br>
+		{% endif %}
+	{% endif %}
+{% endif %}
+{% if type=="rank" %}
+<div style="clear:left;">
+	<form action="{{ url_for('test', id=id) }}" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="result" type="text" id="mytext">
+		<input type="hidden" name="test" value="{{ content }}">
+		<input type="hidden" name="single_img" value="{{ contents }}">
+		<br></be><input id="button" type="submit" name="button" value="Avanti"/>
+	</form>
+		<br>
+	</div>
+	</div>
+	Stimolo {{ nrnow }} di {{ nrtest }}<br><br>
+{% endif %}
+{% if (type=="img") or (type=="video") %}
+  {% if (is_double == False) or ((is_double == True) and (is_double_reference == True)) %}
+	<div id="choices_single" style="clear:left;display:none;">
+		{% if choices|length!=0 %}
+			<br><b>Qual è il motivo del tuo voto?</b><br>
+			{% for i in range(choices|length) %}
+			<div style="margin-top:5px;">
+				<input required type="radio" name="choices" value="{{ choices[i] }}"> {{ choices[i] }}<br>
+			</div>
+			{% endfor %}
+		{% endif %}
+	</div>
+  {% endif %}
+  {% if (is_double == True) and (is_double_reference == False) %}
+	<div id="choices_double1" style="float:left;width:45%;margin-left:5%;display:none;">
+		{% if choices[0]|length != 0 %}
+			<br><b>Qual è il motivo del tuo voto?</b><br>
+			{% for i in choices[0] %}
+			<div style="margin-top:5px;">
+				<input required type="radio" name="choices1" value="{{ i }}"> {{ i }}<br>
+			</div>
+			{% endfor %}
+		{% endif %}
+	</div>
+		<div id="choices_double2" style="float:right;width:45%;margin-right:5%;display:none;">
+		{% if choices[1]|length != 0 %}
+			<br><b>Qual è il motivo del tuo voto?</b><br>
+			{% for i in choices[1] %}
+			<div style="margin-top:5px;">
+				<input required type="radio" name="choices2" value="{{ i }}"> {{ i }}<br>
+			</div>
+			{% endfor %}
+		{% endif %}
+	</div>
+  {% endif %}
+	<div style="clear:both;">
+	<input type="hidden" name="test" value="{{ content }}">
+	<input type="hidden" name="test1" value="{{ content1 }}">
+	<input type="hidden" name="test2" value="{{ content2 }}">
+	<br>
+	{% if is_double == False %}
+	    {% if is_continue == False %}
+	        Il tuo voto: <label id="textInput">3</label>
+	    {% else %}
+	        Il tuo voto: <label id="textInput">50</label>
+	    {% endif %}
+	{% endif %}
+	{% if (is_double == True) and (is_double_reference == False) %}
+	    {% if is_continue == False %}
+	    <div style="display:inline-block; width:45%;">
+	        Il tuo voto: <label id="textInput1">3</label>
+	   </div>
+	   <div style="display:inline-block; width:45%;">
+	        Il tuo voto: <label id="textInput2">3</label>
+	   </div>
+	    {% else %}
+	    <div style="display:inline-block; width:45%;">
+	        Il tuo voto: <label id="textInput1">50</label>
+	   </div>
+	   <div style="display:inline-block; width:45%;">
+	        Il tuo voto: <label id="textInput2">50</label>
+	   </div>
+	    {% endif %}
+	{% endif %}
+	<br><input type='submit' value='Avanti'>
+		{{ form.csrf_token }}
+	</form>
+	<br><br>
+	</div>
+	</div>
+	Stimolo {{ nrnow }} di {{ nrtest }}<br><br>
+{% endif %}
+<input type="hidden" value="{{ time_grayscreen }}" id="time_grayscreen">
+<div id="grayscreen" style="height:100vh;position:fixed;top:0;bottom:0;left:0;right:0;overflow:hidden;background-color:gray;"></div>
+</center><br><br>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.3.2.min.js"></script>
+{% if type=="video" %}
+<script src="https://vjs.zencdn.net/7.6.6/video.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	var myPlayer = videojs('my-video');
+{% if is_double == True %}
+	var myPlayer2 = videojs('my-video2');
+{% endif %}
+    $("#playAll").click(function () {
+{% if is_double == True %}
+	myPlayer.play();
+{% endif %}
+	myPlayer2.play();
+     });
+	 });
+</script>
+{% endif %}
+  <!-- Latest Sortable -->
+  <script src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js"></script>
+<script>
+Sortable.create(items, {
+	group: "localStorage-example",
+	store: {
+		get: function (sortable) {
+			var order = localStorage.getItem(sortable.options.group.name);
+			return order ? order.split('|') : [];
+		},
+		set: function (sortable) {
+			var order = sortable.toArray();
+			document.getElementById("mytext").value = order;
+			localStorage.setItem(sortable.options.group.name, order.join('|'));
+		}
+	}
+})
+</script>
+<script>
+function updateval(val){
+    document.getElementById('textInput').innerHTML = val;
+};
+function updateval1(val){
+    document.getElementById('textInput1').innerHTML = val;
+};
+function updateval2(val){
+    document.getElementById('textInput2').innerHTML = val;
+};
+</script>
+<script>
+var time_grayscreen = parseInt($('#time_grayscreen').val());
+$("#grayscreen").show();
+setTimeout(function() { $("#grayscreen").hide(); }, time_grayscreen);
+</script>
+<script>
+$('#slider').click(function(e) {
+    $('#choices_single').show();
+});
+$('#sliderb').click(function(e) {
+    $('#choices_single').show();
+});
+$('#slider1').click(function(e) {
+    $('#choices_double1').show();
+});
+$('#slider2').click(function(e) {
+    $('#choices_double2').show();
+});
+</script>
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends "base_test.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}{% if user %}
+<center>
+    			<div style="background: white;border-width:1px;border-style:solid;border-color:#dadce0;border-radius:7px;width:45%;margin:2%;margin-bottom:10px;padding-bottom:13px;">
+    <h1>Ciao {{ current_user.username }}!</h1>
+	<h2>Di seguito puoi trovare i test disponibili:</h2>
+	{% if test %}
+		{% for i in range(test|length) %}
+			<div style="font-size:90%;width:28%;margin:10px;height:auto;border-width:1px;border-style:solid;border-color:#eaebec;border-radius:3px;display:inline-block;">
+				<div style="padding-left:5px;padding-right:5px;">
+				<h2>
+				{% if test[i].type=='img' %}
+					{% if test[i].is_double == False %}
+						<img style="border-radius:10px 10px;" width="90%" height="150px" src="../static{{ first[i].url }}">
+						<br><br>
+						{% if titolo[i] %}
+							{{ titolo[i] }}
+						{% else %}
+							Test Immagini a singolo stimolo
+						{% endif %}
+					{% else %}
+						<img style="border-radius:10px 0 0 10px;" width="45%" height="150px" src="../static{{ first[i][0].url }}">
+						<img style="border-radius:0 10px 10px 0;" width="45%" height="150px" src="../static{{ first[i][1].url }}">
+						<br><br>
+						{% if titolo[i] %}
+							{{ titolo[i] }}
+						{% else %}
+							Test Immagini a doppio stimolo
+						{% endif %}
+					{% endif %}
+				{% endif %}
+				{% if test[i].type=='video' %}
+					{% if test[i].is_double == False %}
+						<img style="border-radius:10px 10px;" width="90%" height="150px" src="../static/video.png">
+						<br><br>
+						{% if titolo[i] %}
+							{{ titolo[i] }}
+						{% else %}
+							Test Video a singolo stimolo
+						{% endif %}
+					{% else %}
+						<img style="border-radius:10px 0 0 10px;" width="45%" height="150px" src="../static/video.png">
+						<img style="border-radius:0 10px 10px 0;" width="45%" height="150px" src="../static/video.png">
+						<br><br>
+						{% if titolo[i] %}
+							{{ titolo[i] }}
+						{% else %}
+							Test Video a doppio stimolo
+						{% endif %}
+					{% endif %}
+				{% endif %}
+				{% if test[i].type=='rank' %}
+					<img style="border-radius:10px 10px;" width="50%" height="150px" src="../static/rank.png">
+					<br><br>
+					{% if titolo[i] %}
+						{{ titolo[i] }}
+					{% else %}
+						Test Immagini Rank
+					{% endif %}
+				{% endif %}
+				{% if len_ans[i]!=0 %}
+					</h2><i>Rimanenti {{ len_tot[i]-len_ans[i] }} di {{len_tot[i]}}.</i><h2>
+					<input type='button' onclick="window.location.href = '../istruzioni/{{ test[i].id }}';" value='Riprendi' id='start'></h2>
+				{% else %}
+					<br><input style="margin-top:20px;padding:13px 20px;" type='button' onclick="window.location.href = '../istruzioni/{{ test[i].id }}';" value='Inizia' id='start'></h2>
+				{% endif %}
+				</div>
+			</div>
+		{% endfor %}
+	{% else %}
+		<br><i>Nessun test al momento disponibile.</i>
+	{% endif %}
+</div>
+</center>
+{% endif %}
+<br><br>{% endblock %}

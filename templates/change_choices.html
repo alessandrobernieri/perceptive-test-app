@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+<center>
+<div style="background: white;border-width:1px;border-style:solid;border-color:#dadce0;border-radius:7px;width:50%;margin:2%;margin-bottom:10px;padding-bottom:13px;">
+<h1>Modifica le Opzioni</h1>
+<h2>Test id: {{ id }}</h2>
+<form enctype="multipart/form-data" action="{{ url_for('change_choices', id=id) }}" method="post">
+	{% if not choices_old %}
+		<i>Nessun opzione al momento relativa a questo test.</b>
+	{% endif %}
+		<br><br><b>OPZIONI: </b>
+		<br><br>
+		{% if (test.is_double == False) or (test.is_double_reference == True) %}
+			<div style="display:inline-block;">
+				{% for x in range(choices_old|length) %}
+					<div style="display:absolute; margin-top:11px;"><input type="text" size="50" name="choices{{ x }}" id="choices{{  x+1  }}" value="{{ choices_old[x] }}" required></div>
+				{% endfor %}
+				<div id="new_choices">
+
+				</div>
+				<br>
+				<div style="display:inline-block;"><button type="button" class="add">Aggiungi</button></div>
+				<div style="display:inline-block;"><button type="button" class="remove">Rimuovi</button></div>
+				<input type="hidden" value="{{ (choices_old|length) }}" id="total_chq">
+			</div>
+		{% endif %}
+		{% if (test.is_double == True) and (test.is_double_reference == False) %}
+			<div style="display:inline-block;vertical-align:top;margin-right:20px;">
+				Opzioni stimolo #1:
+				{% for x in range(choices_old[0]|length) %}
+					<div style="display:absolute; margin-top:11px;"><input type="text" size="50" name="choices1_{{ x }}" id="choices1_{{  x+1  }}" value="{{ choices_old[0][x] }}" required></div>
+				{% endfor %}
+				<div id="new_choices1">
+
+				</div>
+				<br>
+				<div style="display:inline-block;"><button type="button" class="add1">Aggiungi</button></div>
+				<div style="display:inline-block;"><button type="button" class="remove1">Rimuovi</button></div>
+				<input type="hidden" value="{{ (choices_old[0]|length) }}" id="total_chq1">
+			</div>
+			<div style="display:inline-block;vertical-align:top;margin-left:20px;">
+				Opzioni stimolo #2:
+				{% for x in range(choices_old[1]|length) %}
+					<div style="display:absolute; margin-top:11px;"><input type="text" size="50" name="choices2_{{ x }}" id="choices2_{{  x+1  }}" value="{{ choices_old[1][x] }}" required></div>
+				{% endfor %}
+				<div id="new_choices2">
+
+				</div>
+				<br>
+				<div style="display:inline-block;"><button type="button" class="add2">Aggiungi</button></div>
+				<div style="display:inline-block;"><button type="button" class="remove2">Rimuovi</button></div>
+				<input type="hidden" value="{{ (choices_old[1]|length) }}" id="total_chq2">
+			</div>
+		{% endif %}
+
+<br><br><br>{{ form.submit }}
+{{ form.csrf_token }}
+</form><br>
+</div>
+</center>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script>
+$('.add').on('click', add);
+$('.remove').on('click', remove)
+$('.add1').on('click', add1);
+$('.remove1').on('click', remove1)
+$('.add2').on('click', add2);
+$('.remove2').on('click', remove2)
+
+function add() {
+  var index = parseInt($('#total_chq').val());
+  var index_plus = parseInt($('#total_chq').val()) + 1;
+  var new_input = "<div style='display:absolute; margin-top:11px;'><input type='text' size='50' name='choices" + index +"' id='choices" + index_plus + "' required></div>";
+
+  $('#new_choices').append(new_input);
+
+  $('#total_chq').val(index + 1);
+}
+function remove() {
+  var index = $('#total_chq').val();
+
+  if (index > 0) {
+    $('#choices' + index).remove();
+    $('#total_chq').val(index - 1);
+  }
+}
+function add1() {
+  var index = parseInt($('#total_chq1').val());
+  var index_plus = parseInt($('#total_chq1').val()) + 1;
+  var new_input = "<div style='display:absolute; margin-top:11px;'><input type='text' size='50' name='choices1_" + index +"' id='choices1_" + index_plus + "' required></div>";
+
+  $('#new_choices1').append(new_input);
+
+  $('#total_chq1').val(index + 1);
+}
+function remove1() {
+  var index = $('#total_chq1').val();
+
+  if (index > 0) {
+    $('#choices1_' + index).remove();
+    $('#total_chq1').val(index - 1);
+  }
+}
+function add2() {
+  var index = parseInt($('#total_chq2').val());
+  var index_plus = parseInt($('#total_chq2').val()) + 1;
+  var new_input = "<div style='display:absolute; margin-top:11px;'><input type='text' size='50' name='choices2_" + index +"' id='choices2_" + index_plus + "' required></div>";
+
+  $('#new_choices2').append(new_input);
+
+  $('#total_chq2').val(index + 1);
+}
+function remove2() {
+  var index = $('#total_chq2').val();
+
+  if (index > 0) {
+    $('#choices2_' + index).remove();
+    $('#total_chq2').val(index - 1);
+  }
+}
+</script>
+
+{% endblock %}

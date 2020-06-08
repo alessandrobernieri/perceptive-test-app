@@ -1,0 +1,355 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+<center>
+    <div style="background: white;border-width:1px;border-style:solid;border-color:#dadce0;border-radius:7px;width:70%;margin:2%;margin-bottom:10px;padding-bottom:13px;">
+    <h1>Crea un test</h1>
+<form enctype="multipart/form-data" action="{{ url_for('create_test') }}" method="post">
+<div style="display:inline-block;">
+<h2>Tipo di test: </h2>
+</div><div style="display:inline-block;margin-left:20px;">
+  <select id="type" name="type" onchange="changetype()">
+  <option value=None>Seleziona un tipo</option>
+  <option value="Img">Immagine</option>
+  <option value="Video">Video</option>
+</select>
+</div>
+<br><br>
+
+<div id="ifImg" style="display: none;">
+<div style="display:inline-block;">
+	<h2>Modalità del test: 	</h2>
+</div><div style="display:inline-block;margin-left:20px;">
+	<select id="subtype_img" name="subtype_img" onchange="img_changetype()">
+		<option value=None>Seleziona un test</option>
+		<option value="img_single">Singolo</option>
+		<option value="img_double">Doppio</option>
+		<option value="img_rank">Rank</option>
+	</select>
+</div>
+	<br><br>
+	<div id="ifImgSingle" style="display: none;">
+	<div style="display:inline-block;">
+	<h2>Test continuo? </h2>
+	</div><div style="display:inline-block;margin-left:20px;">
+	<input type="checkbox" name="is_continue" value="continue">
+	</div>
+		<br><br>Seleziona le immagini che faranno parte del test oppure carica un file config:
+		<br><br>
+		{% for i in img_presenti %}
+		<div style="width: 110px; height: auto; display:inline-block;">
+			<img height="100px" width="100px" src="static{{ i.url }}">
+			<br><input type="checkbox" name="imgsingle{{ i }}" value="{{ i }}"> id {{ i.id }}
+		</div>
+		{% endfor %}
+		<br>
+		<br>
+		<hr>
+		<input id="config-file" name="config-file" type="file" />
+		<br>NB: Il file Config dovrà contenere 1 ID per ogni riga.
+		<br><b>es:</b><br>2<br>5<br>1
+		<hr>
+	</div>
+
+	<div id="ifImgDouble" style="display: none;">
+		<div style="display:inline-block;">
+		<h2>Tipo di voto?</h2>
+		</div><div style="display:inline-block;margin-left:20px;">
+		<select id="subtype_double" name="subtype_double">
+			<option value="double_discreto">Discreto</option>
+			<option value="double_is_continue">Continuo</option>
+			<option value="double_is_reference">A o B</option>
+		</select>
+		</div>
+		<br><br>Seleziona le immagini che faranno parte del test oppure carica un file config:
+		<br><br>
+		<div id="DoubleGroup">
+			<div id="DoubleDiv1">
+				<div style="display:inline-block; max-width: 500px;">
+					Immagine A #1
+					<br>{% for i in img_presenti %}
+						<div style="width: 110px; height: auto; display:inline-block;">
+							<img height="100px" width="100px" src="static{{ i.url }}">
+							<br><input type="radio" name="img1double_1" value="{{ i }}">  id {{ i.id }}
+						</div>
+					{% endfor %}
+				</div>
+				<div style="display:inline-block; margin-left:50px; max-width: 500px;">
+					Immagine B #1
+					<br>{% for i in img_presenti %}
+						<div style="width: 110px; height: auto; display:inline-block;">
+							<img height="100px" width="100px" src="static{{ i.url }}">
+							<br><input type="radio" name="img2double_1" value="{{ i }}">  id {{ i.id }}
+						</div>
+					{% endfor %}
+				</div>
+				<br>
+			</div><br><br>
+		</div>
+		<br><br>
+		<div><input type='button' value='Aggiungi coppia' id='addButton'>
+		<input style="margin-left:20px;margin-top:20px;" type='button' value='Rimuovi coppia' id='removeButton'></div>
+		<br>
+		<br>
+		<hr>
+		<input id="config-file" name="config-file-double" type="file" />
+		<br>NB: Il file Config dovrà contenere 2 ID per ogni riga.
+		<br><b>es:</b><br>2,3<br>5,1<br>1,8
+		<hr>
+	</div>
+
+	<div id="ifImgRank" style="display: none;">
+		Seleziona le immagini che faranno parte del test oppure carica un file config:
+		<br><br>
+		<div id="RankGroup">
+			<div id="RankDiv1">
+			{% for i in img_presenti %}
+				<div style="width: 110px; height: auto; display:inline-block;">
+					<img height="100px" width="100px" src="static{{ i.url }}">
+					<br><input type="checkbox" name="imgrank1_{{ i }}" value="{{ i }}">  id {{ i.id }}
+				</div>
+			{% endfor %}
+			</div>
+		</div>
+		<br>
+		<div><input type='button' value='Aggiungi rank' id='addRankButton'>
+		<input style="margin-left:20px;margin-top:20px;" type='button' value='Rimuovi coppia' id='removeRankButton'></div>
+		<br>
+		<hr>
+		<input id="config-file" name="config-rank" type="file" />
+		<br>NB: Il file Config dovrà contenere almeno 2 ID per riga (ogni riga uno step) e almeno 1 riga
+		<br><b>es:</b><br>2,3,1<br>5,1,2<br>1,8
+		<hr>
+	</div>
+
+</div>
+
+<div id="ifVideo" style="display: none;">
+<div style="display:inline-block;">
+	<h2>Modalità del test: 	</h2>
+</div><div style="display:inline-block;margin-left:20px;">
+	<select id="subtype_video" name="subtype_video" onchange="video_changetype()">
+		<option value=None>Seleziona un test</option>
+		<option value="video_single">Singolo</option>
+		<option value="video_double">Doppio</option>
+	</select>
+</div>
+	<br><br>
+
+	<div id="ifVideoSingle" style="display: none;">
+	    <div style="display:inline-block;">
+	<h2>Test continuo? </h2>
+	</div><div style="display:inline-block;margin-left:20px;">
+	<input type="checkbox" name="is_continue" value="continue">
+	</div>
+		<br><br>Seleziona i video che faranno parte del test o carica un file config:
+		<br><br>
+		{% for i in video_presenti %}
+		<div style="width: 210px; height: auto; display:inline-block;">
+			  <video id="my-video" class="video-js" controls preload="auto" width="200" height="160" data-setup="{}">
+				<source src="../static{{ i.url }}" type="video/mp4" />
+				<p class="vjs-no-js"> To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+			</video>
+			<br><input type="checkbox" name="videosingle{{ i }}" value="{{ i }}">  id {{ i.id }}
+		</div>
+		{% endfor %}
+		<br>
+		<br>
+		<hr>
+		<input id="config-file" name="config-video" type="file" />
+		<br>NB: Il file Config dovrà contenere 1 ID per ogni riga.
+		<br><b>es:</b><br>2<br>5<br>1
+		<hr>
+	</div>
+
+	<div id="ifVideoDouble" style="display: none;">
+		<div style="display:inline-block;">
+		<h2>Tipo di voto?</h2>
+		</div><div style="display:inline-block;margin-left:20px;">
+		<select id="subtype_video_double" name="subtype_video_double">
+			<option value="double_discreto">Discreto</option>
+			<option value="double_is_continue">Continuo</option>
+			<option value="double_is_reference">A o B</option>
+		</select>
+		</div>
+		<br><br>Seleziona i video che faranno parte del test oppure carica un file config:
+		<br><br>
+		<div id="DoubleVideoGroup">
+			<div id="DoubleVideoDiv1">
+				<div style="display:inline-block; max-width: 520px;">
+					Video A #1
+					<br>{% for i in video_presenti %}
+						<div style="width: 140px; height: auto; display:inline-block;">
+							<video id="my-video1" class="video-js" controls preload="auto" width="130" height="90" data-setup="{}">
+								<source src="../static{{ i.url }}" type="video/mp4" />
+								<p class="vjs-no-js"> To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+							</video>
+							<br><input type="radio" name="video1double_1" value="{{ i }}">  id {{ i.id }}
+						</div>
+					{% endfor %}
+				</div>
+				<div style="display:inline-block; margin-left:50px; max-width: 520px;">
+					Video B #1
+					<br>{% for i in video_presenti %}
+						<div style="width: 140px; height: auto; display:inline-block;">
+							<video id="my-video1" class="video-js" controls preload="auto" width="130" height="90" data-setup="{}">
+								<source src="../static{{ i.url }}" type="video/mp4" />
+								<p class="vjs-no-js"> To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+							</video>
+							<br><input type="radio" name="video2double_1" value="{{ i }}">  id {{ i.id }}
+						</div>
+					{% endfor %}
+				</div>
+				<br>
+			</div><br><br>
+		</div>
+		<div><input type='button' value='Aggiungi coppia' id='addVideoButton'>
+		<input style="margin-left:20px; margin-top:20px;" type='button' value='Rimuovi coppia' id='removeVideoButton'></div>
+		<br>
+		<hr>
+		<input id="config-file" name="config-video-double" type="file" />
+		<br>NB: Il file Config dovrà contenere 2 ID per ogni riga.
+		<br><b>es:</b><br>2,3<br>5,1<br>1,8
+		<hr>
+	</div>
+
+
+</div>
+
+<div>
+<br>{{ wtf.form_field(form.submit, class="btn btn-default", button_map={'submit': 'primary'}) }}
+{{ form.csrf_token }}
+</div>
+</form>
+<br><br>
+</div>
+</center>
+<br>
+<script>
+function changetype() {
+  var type = document.getElementById("type").value;
+  if (type === "Img") {
+	document.getElementById("ifVideo").style.display = "none";
+    document.getElementById("ifImg").style.display = "block";
+  }
+  if (type === "Video") {
+	document.getElementById("ifVideo").style.display = "block";
+	document.getElementById("ifImg").style.display = "none";
+  }
+    if (type === "None") {
+	document.getElementById("ifVideo").style.display = "none";
+	document.getElementById("ifImg").style.display = "none";
+  }
+}
+function img_changetype() {
+  var img_type = document.getElementById("subtype_img").value;
+  if (img_type === "None") {
+	document.getElementById("ifImgDouble").style.display = "none";
+	document.getElementById("ifImgRank").style.display = "none";
+    document.getElementById("ifImgSingle").style.display = "none";
+  }
+  if (img_type === "img_single") {
+	document.getElementById("ifImgDouble").style.display = "none";
+	document.getElementById("ifImgRank").style.display = "none";
+    document.getElementById("ifImgSingle").style.display = "block";
+  }
+  if (img_type === "img_double") {
+    document.getElementById("ifImgSingle").style.display = "none";
+	document.getElementById("ifImgRank").style.display = "none";
+	document.getElementById("ifImgDouble").style.display = "block";
+  }
+  if (img_type === "img_rank") {
+	document.getElementById("ifImgDouble").style.display = "none";
+	document.getElementById("ifImgSingle").style.display = "none";
+    document.getElementById("ifImgRank").style.display = "block";
+  }
+}
+function video_changetype() {
+  var video_type = document.getElementById("subtype_video").value;
+  if (video_type === "None") {
+	document.getElementById("ifVideoDouble").style.display = "none";
+    document.getElementById("ifVideoSingle").style.display = "none";
+  }
+  if (video_type === "video_single") {
+	document.getElementById("ifVideoDouble").style.display = "none";
+    document.getElementById("ifVideoSingle").style.display = "block";
+  }
+  if (video_type === "video_double") {
+    document.getElementById("ifVideoSingle").style.display = "none";
+	document.getElementById("ifVideoDouble").style.display = "block";
+  }
+}
+</script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.3.2.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+    var counter = 2;
+    $("#addButton").click(function () {
+	var newDoubleDiv = $(document.createElement('div'))
+	     .attr({"id": 'DoubleDiv' + counter, "style": 'clear:left'});
+
+	newDoubleDiv.after().html('<div style=\"display:inline-block; max-width: 500px;\">Immagine A #'+counter+'<br>{% for i in img_presenti %}<div style=\"width: 110px; height: auto; display:inline-block;\"><img height=\"100px\" width=\"100px\" src=\"static{{ i.url }}\"><br><input type=\"radio\" name=\"img1double_'+counter+'\" required value=\"{{ i }}\"></div>{% endfor %}</div><div style=\"display:inline-block; margin-left: 50px; max-width: 500px;\">Immagine B #'+counter+'<br>{% for i in img_presenti %}<div style=\"width: 110px; height: auto; display:inline-block;\"><img height=\"100px\" width=\"100px\" src=\"static{{ i.url }}\"><br><input type=\"radio\" name=\"img2double_'+counter+'\" required value=\"{{ i }}\"></div>{% endfor %}</div>');
+
+	newDoubleDiv.appendTo("#DoubleGroup");
+	counter++;
+     });
+
+     $("#removeButton").click(function () {
+	if(counter==2){
+          alert("Non puoi rimuovere altre coppie");
+          return false;
+       }
+	counter--;
+
+        $("#DoubleDiv" + counter).remove();
+
+     });
+
+	var rank_counter = 2;
+	$("#addRankButton").click(function () {
+	var newRankDiv = $(document.createElement('div'))
+		.attr({"id": 'RankDiv' + rank_counter, "style": 'clear:left'});
+
+	newRankDiv.after().html('{% for i in img_presenti %}<div style="width: 110px; height: auto; display:inline-block;"><img height="100px" width="100px" src="static{{ i.url }}"><br><input type="checkbox" name="imgrank'+rank_counter+'_{{ i }}" value="{{ i }}"></div>	{% endfor %}');
+
+	newRankDiv.appendTo("#RankGroup");
+	rank_counter++;
+	     });
+
+     $("#removeRankButton").click(function () {
+	if(rank_counter==2){
+	      alert("Non puoi rimuovere altri rank");
+          return false;
+       }
+	rank_counter--;
+
+        $("#RankDiv" + rank_counter).remove();
+
+     });
+
+	var video_counter = 2;
+    $("#addVideoButton").click(function () {
+	var newDoubleVideoDiv = $(document.createElement('div'))
+	     .attr({"id": 'DoubleVideoDiv' + video_counter, "style": 'clear:left'});
+
+	newDoubleVideoDiv.after().html('<div style="display:inline-block; max-width: 520px;">Video A #'+video_counter+'<br>{% for i in video_presenti %}<div style="width: 140px; height: auto; display:inline-block;"><video id="my-video'+video_counter+'" class="video-js'+video_counter+'" controls preload="auto" width="130" height="90" data-setup="{}"><source src="../static{{ i.url }}" type="video/mp4" /><p class="vjs-no-js"> To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p></video><br><input type="radio" name="video1double_'+video_counter+'" required value="{{ i }}"></div>{% endfor %}</div><div style="display:inline-block; margin-left:50px; max-width: 520px;">Video B #'+video_counter+'<br>{% for i in video_presenti %}<div style="width: 140px; height: auto; display:inline-block;"><video id="my-video'+video_counter+'" class="video-js'+video_counter+'" controls preload="auto" width="130" height="90" data-setup="{}"><source src="../static{{ i.url }}" type="video/mp4" /><p class="vjs-no-js"> To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p></video><br><input type="radio" name="video2double_'+video_counter+'" required value="{{ i }}"></div>{% endfor %}</div><br>');
+
+	newDoubleVideoDiv.appendTo("#DoubleVideoGroup");
+	video_counter++;
+     });
+
+     $("#removeVideoButton").click(function () {
+	if(video_counter==2){
+          alert("Non puoi rimuovere altre coppie");
+          return false;
+       }
+	video_counter--;
+
+        $("#DoubleVideoDiv" + video_counter).remove();
+
+     });
+	});
+</script>
+<script src="https://vjs.zencdn.net/7.6.6/video.js"></script>
+{% endblock %}

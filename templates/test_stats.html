@@ -1,0 +1,224 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+<center>
+    <div style="background: white;border-width:1px;border-style:solid;border-color:#dadce0;border-radius:7px;width:70%;margin:2%;margin-bottom:10px;padding-bottom:13px;">
+<h1>Statistiche</h1>
+<form enctype="multipart/form-data" action="{{ url_for('test_stats', id=test.id) }}" method="post">
+<b>Download CSV</b>
+<br><input type="submit" value="Download">
+{{ form.csrf_token }}
+</form>
+{% if test.is_double == False %}
+	{% if test.type == 'rank' %}
+		<h2>Test Rank a immagini</h2>
+		<br>
+		{% for i in range(contents|length) %}
+			{% for z in range(contents[i]|length) %}
+			<div style="width: 210px; height: auto; display:inline-block;">
+				<img height="200px" width="200px" src="../static{{ contents[i][z].url }}">
+				<br><b>Posizione media:</b> {{ stats[i][1][z] }}
+			</div>
+			{% endfor %}
+			<br><br><b>Numero voti:</b> {{ stats[i][0] }}
+			<br>
+			<hr>
+			<br>
+		{% endfor %}
+	{% endif %}
+	{% if test.type == 'img' %}
+		<h2>Test singolo a immagini</h2>
+		{% if test.is_continue == True %}
+			Valutazione continua
+		{% endif %}
+		{% if test.is_continue == False %}
+			Valutazione discreta
+		{% endif %}
+		<br><br>
+		{% for i in range(contents|length) %}
+			<div style="width: 210px; height: auto; display:inline-block;">
+				<img height="200px" width="200px" src="../static{{ contents[i].url }}">
+				<br><b>Voti:</b> {{ stats[i][0] }}
+				<br><b>Media:</b> {{ stats[i][1] }}
+				{% if choices!=[] %}
+					<br><b>Motivo:</b>
+					{% for y in range(choices_count[i]|length) %}
+						<br>{{ choices[y] }}: {{ choices_count[i][y] }}
+					{% endfor %}
+				{% endif %}
+			</div>
+		{% endfor %}
+	{% endif %}
+	{% if test.type == 'video' %}
+		<h2>Test singolo a video</h2>
+		{% if test.is_continue == True %}
+			Valutazione continua
+		{% endif %}
+		{% if test.is_continue == False %}
+			Valutazione discreta
+		{% endif %}
+		<br><br>
+		{% for i in range(contents|length) %}
+			<div style="width: 310px; height: auto; display:inline-block;">
+				<video id="my-video" class="video-js" controls preload="auto" width="300" height="260" data-setup="{}">
+					<source src="../static{{ contents[i].url }}" type="video/mp4" />
+					<p class="vjs-no-js"> To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+				</video>
+				<b>Voti:</b> {{ stats[i][0] }}
+				<br><b>Media:</b> {{ stats[i][1] }}
+				{% if choices!=[] %}
+					<br><b>Motivo:</b>
+					{% for y in range(choices_count[i]|length) %}
+						<br>{{ choices[y] }}: {{ choices_count[i][y] }}
+					{% endfor %}
+				{% endif %}
+			</div>
+		{% endfor %}
+	{% endif %}
+{% endif %}
+{% if test.is_double == True %}
+	{% if test.is_double_reference == True %}
+		{% if test.type == 'img' %}
+			<h2>Test doppio a immagini</h2>
+			Scelta tra le due immagini<br><br>
+			{% for i in range(contents1|length) %}
+				<div style="width:520px;height:auto;">
+					<div style="width: 230px; display:inline-block;">
+						<img height="200px" width="200px" src="../static{{ contents1[i].url }}">
+						<br>Voti <b>IMG A: </b>{{ stats[i][0] }}
+					</div>
+					<div style="width: 230px; display:inline-block;">
+						<img height="200px" width="200px" src="../static{{ contents2[i].url }}">
+						<br>Voti <b>IMG B: </b>{{ stats[i][1] }}
+					</div>
+					{% if choices!=[] %}
+						<br><b>Motivo:</b>
+						{% for y in range(choices_count[i]|length) %}
+							<br>{{ choices[y] }}: {{ choices_count[i][y] }}
+						{% endfor %}
+					{% endif %}
+					<br><br><hr><br>
+				</div>
+			{% endfor %}
+		{% endif %}
+		{% if test.type == 'video' %}
+			<h2>Test doppio a video</h2>
+			Scelta tra i due video<br><br>
+			{% for i in range(contents1|length) %}
+				<div style="width:680px;height:auto;">
+					<div style="width: 330px; display:inline-block;">
+						<video id="my-video" class="video-js" controls preload="auto" width="300" height="260" data-setup="{}">
+							<source src="../static{{ contents1[i].url }}" type="video/mp4" />
+							<p class="vjs-no-js"> To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+						</video>
+						<br>Voti <b>VIDEO A: </b>{{ stats[i][0] }}
+					</div>
+					<div style="width: 330px; display:inline-block;">
+						<video id="my-video" class="video-js" controls preload="auto" width="300" height="260" data-setup="{}">
+							<source src="../static{{ contents2[i].url }}" type="video/mp4" />
+							<p class="vjs-no-js"> To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+						</video>
+						<br>Voti <b>VIDEO B: </b>{{ stats[i][1] }}
+					</div>
+					{% if choices!=[] %}
+						<br><b>Motivo:</b>
+						{% for y in range(choices_count[i]|length) %}
+							<br>{{ choices[y] }}: {{ choices_count[i][y] }}
+						{% endfor %}
+					{% endif %}
+					<br><br><hr><br>
+				</div>
+			{% endfor %}
+		{% endif %}
+	{% endif %}
+	{% if test.is_double_reference == False %}
+		{% if test.type == 'img' %}
+			<h2>Test doppio a immagini</h2>
+			{% if test.is_continue == True %}
+				A valutazione continua<br><br>
+			{% endif %}
+			{% if test.is_continue == False %}
+				A valutazione discreta<br><br>
+			{% endif %}
+			{% for i in range(contents1|length) %}
+				<div style="width:520px;height:auto;">
+					<div style="width: 230px; display:inline-block;">
+						<img height="200px" width="200px" src="../static{{ contents1[i].url }}">
+						<br><b>Voti:</b> {{ stats[i][0] }}
+						<br><b>Media:</b> {{ stats[i][1] }}
+						{% if (choices!=[]) and (choices[0] is defined) %}
+							<br><b>Motivo:</b>
+							{% for y in range(choices[0]|length) %}
+								<br>{{ choices[0][y] }}: {{ choices_count1[i][y] }}
+							{% endfor %}
+						{% endif %}
+					</div>
+					<div style="width: 230px; display:inline-block;">
+						<img height="200px" width="200px" src="../static{{ contents2[i].url }}">
+						<br><b>Voti:</b> {{ stats[i][2] }}
+						<br><b>Media:</b> {{ stats[i][3] }}
+						{% if (choices!=[]) and (choices[1] is defined) %}
+							<br><b>Motivo:</b>
+							{% for y in range(choices[1]|length) %}
+								<br>{{ choices[1][y] }}: {{ choices_count2[i][y] }}
+							{% endfor %}
+						{% endif %}
+					</div>
+					<br><br><hr><br>
+				</div>
+			{% endfor %}
+		{% endif %}
+		{% if test.type == 'video' %}
+			<h2>Test doppio a video</h2>
+			{% if test.is_continue == True %}
+				A valutazione continua<br><br>
+			{% endif %}
+			{% if test.is_continue == False %}
+				A valutazione discreta<br><br>
+			{% endif %}
+			{% for i in range(contents1|length) %}
+				<div style="width:670px;height:auto;">
+					<div style="width: 330px; display:inline-block;">
+						<video id="my-video" class="video-js" controls preload="auto" width="300" height="260" data-setup="{}">
+							<source src="../static{{ contents1[i].url }}" type="video/mp4" />
+							<p class="vjs-no-js"> To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+						</video>
+						<b>Voti:</b> {{ stats[i][0] }}
+						<br><b>Media:</b> {{ stats[i][1] }}
+						{% if (choices!=[]) and (choices[0] is defined) %}
+							<br><b>Motivo:</b>
+							{% for y in range(choices[0]|length) %}
+								<br>{{ choices[0][y] }}: {{ choices_count1[i][y] }}
+							{% endfor %}
+						{% endif %}
+					</div>
+					<div style="width: 330px; display:inline-block;">
+						<video id="my-video" class="video-js" controls preload="auto" width="300" height="260" data-setup="{}">
+							<source src="../static{{ contents2[i].url }}" type="video/mp4" />
+							<p class="vjs-no-js"> To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+						</video>
+						<b>Voti:</b> {{ stats[i][2] }}
+						<br><b>Media:</b> {{ stats[i][3] }}
+						{% if (choices!=[]) and (choices[1] is defined) %}
+							<br><b>Motivo:</b>
+							{% for y in range(choices[1]|length) %}
+								<br>{{ choices[1][y] }}: {{ choices_count2[i][y] }}
+							{% endfor %}
+						{% endif %}
+					</div>
+					<br><br><hr><br>
+				</div>
+			{% endfor %}
+		{% endif %}
+	{% endif %}
+{% endif %}
+</center>
+<br><br>
+</div>
+<br>
+
+
+<script src="https://vjs.zencdn.net/7.6.6/video.js"></script>
+
+{% endblock %}

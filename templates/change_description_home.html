@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+<center>
+    <div style="background: white;border-width:1px;border-style:solid;border-color:#dadce0;border-radius:7px;width:30%;margin:2%;margin-bottom:10px;padding-bottom:13px;">
+    <h1>Modifica la descrizione</h1>
+<form action="{{ url_for('changedescription') }}" method="post">
+Seleziona il test di cui modificare la descrizione:
+<select id="test" name="test">
+	{% for i in range(test_presenti|length) %}
+    {% if titoli[i] %}
+	    <option value={{ test_presenti[i].id }}>Test: {{ titoli[i] }}</option>
+	{% else %}
+	    <option value={{ test_presenti[i].id }}>Test id: {{ test_presenti[i].id }}</option>
+	{% endif %}
+{% endfor %}
+</select>
+<br><br>
+{{ form.submit }}
+{{ form.csrf_token }}
+</form>
+<br>
+</div></center>
+<br>
+{% endblock %}

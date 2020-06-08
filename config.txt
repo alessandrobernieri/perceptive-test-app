@@ -1,0 +1,21 @@
+[general]
+time_grayscreen = 1000
+
+[choice_config]
+6 = Opzione esempio 1,Opzione esempio 2,Opzione esempio 3-Opzione esempio 1 video 2,Opzione esempio 2 video 2
+8 = Opzione 1 esempio,Opzione 2 esempio,Opzione 3 esempio
+15 = Opzione 2,Opzione esempio 2-Opzione c,Opzione 2,Opzione 3
+13 = Opzione 1,Opzione 2-
+18 = opzione 1 ,opzione 2 -opzione a,opzione b,opzione c
+20 = opzione a,opzione 2,opzione #
+
+[title_config]
+6 = Test Immagini a doppio stimolo (con opzioni)
+8 = Test Video a doppio stimolo (reference) con opzioni
+9 = titolo prova
+19 = Test rank d'esempio
+4 = da 1 a 100 quanto ritieni appetitoso il piatto ritratto?
+
+[description_config]
+4 = (Nella valutazione ignorare tutto cio' che sta al di fuori del piatto)
+
