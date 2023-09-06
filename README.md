@@ -1,4 +1,4 @@
-# Perceptive Test
+# Perceptive Test App
 
 This web application was developed as part of a Bachelor's degree thesis project at Università Bicocca in Milan. It is coded primarily in Python, utilizing Flask for the user interface, MySQL with SQLAlchemy for database management, and HTML/CSS for web presentation.
 
